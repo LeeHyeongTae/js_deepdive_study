@@ -247,3 +247,15 @@ Date를 나타내는 문자열을 UTC 기준으로 반환합니다.
 #### Date.prototype.valueOf()
 Date 객체의 원시 값을 반환합니다. Object.prototype.valueOf() 메서드를 재정의합니다.
 
+
+## 30-3. Day.js
+
+> Fast 2kB alternative to Moment.js with the same modern API.  
+> (moment.js는 지원 중단됨)
+
+### Day.js 사용 이유
+
+- moment.js 지원중단
+- 용량이 커서 프로젝트 성능에 악영향 (day.js는 moment.js 용량의 2~3%)
+- 너무 오래되어 신규 기능 추가 등 유지/보수가 어려움
+- typescript 공식 지원
