@@ -31,6 +31,73 @@
 
 ### 30-1-4. new Date(year, month[, day, minute, second, millisecond])
 
+#### Date 객체를 만드는 여러가지 방법
+
+```javascript
+let today = new Date()
+let birthday = new Date('December 17, 1995 03:24:00')
+let birthday = new Date('1995-12-17T03:24:00')
+let birthday = new Date(1995, 11, 17)            // 월은 0부터 시작
+let birthday = new Date(1995, 11, 17, 3, 24, 0)
+```
+#### 두 자리 연도는 1900년대로
+Date의 연도에 0부터 99까지의 정수를 제공하면 1900부터 1999로 처리합니다. 다른 모든 값은 그대로 사용합니다.
+
+1900년대가 아닌, 실제 0 ~ 99년을 지정해야 하면 Date.prototype.setFullYear()와 Date.prototype.getFullYear() 메서드를 사용해야 합니다.
+
+```javascript
+let date = new Date(98, 1)  // Sun Feb 01 1998 00:00:00 GMT+0900 (대한민국 표준시)
+
+// 구형 메서드: 여기서도 98을 1998로 처리
+date.setYear(98)            // Sun Feb 01 1998 00:00:00 GMT+0900 (대한민국 표준시)
+
+date.setFullYear(98)        // Sat Feb 01 0098 00:00:00 GMT+0827 (대한민국 표준시)
+
+```
+
+#### 경과시간 계산
+
+연, 월, 일(서머타임)의 길이가 계속해서 달라지므로, 두 시간의 간격을 시/분/초보다 큰 단위로 나타낼 땐 여러가지 문제가 생기므로 이 방법을 시도하기 전에 관련 문제를 먼저 자세히 알아보세요.
+
+```javascript
+// Date 객체 사용법
+let start = Date.now()
+
+// 시간이 오래 걸리는 어떤 작업
+doSomethingForALongTime()
+let end = Date.now()
+let elapsed = end - start // 밀리초로 나타낸 경과시간
+
+// 내장 메서드 사용법
+let start = new Date()
+
+// 시간이 오래 걸리는 어떤 작업
+doSomethingForALongTime()
+let end = new Date()
+let elapsed = end.getTime() - start.getTime() // 밀리초로 나타낸 경과시간
+
+// 임의의 함수를 테스트하고, 호출에 걸린 시간을 출력하려면
+function printElapsedTime(fTest) {
+  let nStartTime = Date.now(),
+      vReturn = fTest(),
+      nEndTime = Date.now()
+
+  console.log(`Elapsed time: ${ String(nEndTime - nStartTime) } milliseconds`)
+  return vReturn
+}
+
+let yourFunctionReturn = printElapsedTime(yourFunction)
+
+```
+> 참고: Web Performance API (en-US)의 고해상도 시간 기능을 지원하는 브라우저에서는 Performance.now()를 사용해서 Date.now()보다 더 안정적이고 정확한 경과 시간을 알아낼 수 있습니다.
+
+#### ECMAScript 시간으로부터 경과한 시간을 초 단위로 가져오기
+
+```javascript
+let seconds = Math.floor(Date.now() / 1000)
+```
+여기서는 정수만 반환하는 것이 중요하므로, 단순히 나누기만 해서는 충분하지 않습니다. 그리고 실제로 "지나간" 초를 반환해야 하므로 Math.round()를 사용하지 않고 Math.floor()를 사용합니다.
+
 ## 30-2. Date method
 
 ### 30-2-1. 정적 메서드
